@@ -1,4 +1,48 @@
-#import
+"""Program that solves 8-puzzle. FIXME"""
+
+# Global value of goal state
+goal_state = ['1', '2', '3', '4', '5', '6', '7', '8', '0']
+
+
+class Node:
+    """This class stores attributes for each node."""
+
+    def __init__(self, puzzle):
+        self.heuristic = 0 # if uniform cost search, this doesn't change
+        self.cost = 1 # No cost so set to 1 for all
+        self.children = []
+        self.parent = []
+        self.puzzle = puzzle
+
+    def set_children(self):
+        pass
+
+    def set_heuristic(self):
+        pass
+
+
+def uniform_cost_search(problem):
+    """Uniform Cost Search main function."""
+
+    # Start queue by adding root
+    nodes_queue = [problem]
+
+    while not nodes_queue:
+        # Get the cheapest node
+        node = nodes_queue[0]
+
+        if node.puzzle == goal_state:
+            pass
+            #FIXME
+
+        expand(node, nodes_queue)
+
+
+    # Return failure
+
+
+def expand():
+    """This function expands a given node. Then it adds these nodes to the nodes queue."""
 
 
 def heuristic_misplaced(puzzle):
@@ -183,7 +227,7 @@ def heuristic_distance(puzzle):
 if __name__ == "__main__":
 
     # Intro
-    print('Welcome to Bertie Woosters 8-puzzle solver.')
+    print('Welcome to Jessica Gonzalez 8-puzzle solver.')
     puzzle_type = input('Type “1” to use a default puzzle, or “2” to enter your own puzzle.\n')
     print()
 
@@ -194,6 +238,7 @@ if __name__ == "__main__":
         print('1 2 3\n'
               '4 5 0\n'
               '7 8 6\n')
+        #FIXME
     elif puzzle_type == '2':
         print('Enter your puzzle, use a zero to represent the blank')
         first_row = input('Enter the first row, use space or tabs between numbers: ').replace('\t', ' ')
@@ -211,16 +256,15 @@ if __name__ == "__main__":
     search_type = input()
     print()
 
+    # Create root node object
+    root = Node(puzzle_arr)
+
+    # Call appropriate search function
     if search_type == '1':
-        heuristic = 0
+        uniform_cost_search(root, 0)
     elif search_type == '2':
-        heuristic = heuristic_misplaced(puzzle_arr)
+        #heuristic = heuristic_misplaced(puzzle_arr)
     elif search_type == '3':
-        heuristic = heuristic_distance(puzzle_arr)
+        #heuristic = heuristic_distance(puzzle_arr)
     else:
         print('Invalid search type.')
-    print(heuristic)
-
-
-
-
