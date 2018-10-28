@@ -22,8 +22,6 @@ def heuristic_misplaced(puzzle):
         h += 1
     if puzzle[7] != '8':
         h += 1
-    if puzzle[8] != '0':
-        h += 1
 
     return h
 
@@ -31,8 +29,158 @@ def heuristic_misplaced(puzzle):
 def heuristic_distance(puzzle):
     """This function calculates the heuristic for distance."""
 
+    h = 0
 
-if __name__== "__main__":
+    if puzzle[0] != '1' and puzzle[0] != '0':
+        if puzzle[0] == '2':
+            h += 1
+        if puzzle[0] == '3':
+            h += 2
+        if puzzle[0] == '4':
+            h += 1
+        if puzzle[0] == '5':
+            h += 2
+        if puzzle[0] == '6':
+            h += 3
+        if puzzle[0] == '7':
+            h += 2
+        if puzzle[0] == '8':
+            h += 3
+
+    if puzzle[1] != '2' and puzzle[1] != '0':
+        if puzzle[1] == '1':
+            h += 1
+        if puzzle[1] == '3':
+            h += 1
+        if puzzle[1] == '4':
+            h += 2
+        if puzzle[1] == '5':
+            h += 1
+        if puzzle[1] == '6':
+            h += 2
+        if puzzle[1] == '7':
+            h += 3
+        if puzzle[1] == '8':
+            h += 2
+
+    if puzzle[2] != '3' and puzzle[2] != '0':
+        if puzzle[2] == '1':
+            h += 2
+        if puzzle[2] == '2':
+            h += 1
+        if puzzle[2] == '4':
+            h += 3
+        if puzzle[2] == '5':
+            h += 2
+        if puzzle[2] == '6':
+            h += 1
+        if puzzle[2] == '7':
+            h += 4
+        if puzzle[2] == '8':
+            h += 3
+
+    if puzzle[3] != '4' and puzzle[3] != '0':
+        if puzzle[3] == '1':
+            h += 1
+        if puzzle[3] == '2':
+            h += 2
+        if puzzle[3] == '3':
+            h += 3
+        if puzzle[3] == '5':
+            h += 1
+        if puzzle[3] == '6':
+            h += 2
+        if puzzle[3] == '7':
+            h += 1
+        if puzzle[3] == '8':
+            h += 2
+
+    if puzzle[4] != '5' and puzzle[4] != '0':
+        if puzzle[4] == '1':
+            h += 2
+        if puzzle[4] == '2':
+            h += 1
+        if puzzle[4] == '3':
+            h += 2
+        if puzzle[4] == '4':
+            h += 1
+        if puzzle[4] == '6':
+            h += 1
+        if puzzle[4] == '7':
+            h += 2
+        if puzzle[4] == '8':
+            h += 1
+
+    if puzzle[5] != '6' and puzzle[5] != '0':
+        if puzzle[5] == '1':
+            h += 3
+        if puzzle[5] == '2':
+            h += 2
+        if puzzle[5] == '3':
+            h += 1
+        if puzzle[5] == '4':
+            h += 2
+        if puzzle[5] == '5':
+            h += 1
+        if puzzle[5] == '7':
+            h += 3
+        if puzzle[5] == '8':
+            h += 2
+
+    if puzzle[6] != '7' and puzzle[6] != '0':
+        if puzzle[6] == '1':
+            h += 2
+        if puzzle[6] == '2':
+            h += 3
+        if puzzle[6] == '3':
+            h += 4
+        if puzzle[6] == '4':
+            h += 1
+        if puzzle[6] == '5':
+            h += 2
+        if puzzle[6] == '6':
+            h += 3
+        if puzzle[6] == '8':
+            h += 1
+
+    if puzzle[7] != '8' and puzzle[7] != '0':
+        if puzzle[7] == '1':
+            h += 3
+        if puzzle[7] == '2':
+            h += 2
+        if puzzle[7] == '3':
+            h += 3
+        if puzzle[7] == '4':
+            h += 2
+        if puzzle[7] == '5':
+            h += 1
+        if puzzle[7] == '6':
+            h += 2
+        if puzzle[7] == '7':
+            h += 1
+
+    if puzzle[8] != '0':
+        if puzzle[8] == '1':
+            h += 4
+        if puzzle[8] == '2':
+            h += 3
+        if puzzle[8] == '3':
+            h += 2
+        if puzzle[8] == '4':
+            h += 3
+        if puzzle[8] == '5':
+            h += 2
+        if puzzle[8] == '6':
+            h += 1
+        if puzzle[8] == '7':
+            h += 2
+        if puzzle[8] == '8':
+            h += 1
+
+    return h
+
+
+if __name__ == "__main__":
 
     # Intro
     print('Welcome to Bertie Woosters 8-puzzle solver.')
