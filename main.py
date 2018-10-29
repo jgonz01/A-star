@@ -9,6 +9,7 @@ goal_state = ['1', '2', '3', '4', '5', '6', '7', '8', '0']
 curr_depth = 0
 num_nodes = 0
 max_queue = 0
+checked_puzzles = []
 
 
 class Node:
@@ -65,6 +66,7 @@ def search_function(root, type):
         print('Expanding this node...\n')
 
         num_nodes += 1
+        checked_puzzles.append(node.puzzle)
         nodes_queue = expand(node, nodes_queue, type)
 
     print('Did not find a solution.')
@@ -184,8 +186,10 @@ def expand(node, queue, search_type):
                 node2 = go_right(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -197,9 +201,12 @@ def expand(node, queue, search_type):
                 node3 = go_left(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
-                queue.append(node3)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
+                if node3.puzzle not in checked_puzzles:
+                    queue.append(node3)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -210,8 +217,10 @@ def expand(node, queue, search_type):
                 node2 = go_left(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -223,9 +232,12 @@ def expand(node, queue, search_type):
                 node3 = go_right(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
-                queue.append(node3)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
+                if node3.puzzle not in checked_puzzles:
+                    queue.append(node3)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -238,10 +250,14 @@ def expand(node, queue, search_type):
                 node4 = go_left(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
-                queue.append(node3)
-                queue.append(node4)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
+                if node3.puzzle not in checked_puzzles:
+                    queue.append(node3)
+                if node4.puzzle not in checked_puzzles:
+                    queue.append(node4)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -253,9 +269,12 @@ def expand(node, queue, search_type):
                 node3 = go_left(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
-                queue.append(node3)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
+                if node3.puzzle not in checked_puzzles:
+                    queue.append(node3)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -266,8 +285,10 @@ def expand(node, queue, search_type):
                 node2 = go_right(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -279,9 +300,12 @@ def expand(node, queue, search_type):
                 node3 = go_left(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
-                queue.append(node3)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
+                if node3.puzzle not in checked_puzzles:
+                    queue.append(node3)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
@@ -292,8 +316,10 @@ def expand(node, queue, search_type):
                 node2 = go_left(node.puzzle, i, search_type)
 
                 del queue[0]
-                queue.append(node1)
-                queue.append(node2)
+                if node1.puzzle not in checked_puzzles:
+                    queue.append(node1)
+                if node2.puzzle not in checked_puzzles:
+                    queue.append(node2)
 
                 if search_type > 1:
                     queue.sort(key=operator.attrgetter('total'))
