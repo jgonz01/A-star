@@ -2,6 +2,7 @@
 
 import operator
 import sys
+import time
 
 
 # Global values
@@ -559,6 +560,7 @@ if __name__ == "__main__":
     print()
 
     puzzle_arr = []
+    start_time = 0
 
     # Get puzzle
     if puzzle_type == '1':
@@ -584,12 +586,20 @@ if __name__ == "__main__":
 
     # Call appropriate search function
     if search_type == '1':
+        start_time = time.time()
         search_function(root, 1)
     elif search_type == '2':
+        start_time = time.time()
         root.set_heuristic(2)
         search_function(root, 2)
     elif search_type == '3':
+        start_time = time.time()
         root.set_heuristic(3)
         search_function(root, 3)
     else:
         print('Invalid search type.')
+
+    elapsed_time = time.time() - start_time
+    print()
+    print('Time elapsed: ' + str(elapsed_time))
+    print()
