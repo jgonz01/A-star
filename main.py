@@ -1,5 +1,8 @@
 """Program that solves 8-puzzle. FIXME"""
 
+import operator
+
+
 # Global value of goal state
 goal_state = ['1', '2', '3', '4', '5', '6', '7', '8', '0']
 
@@ -8,41 +11,308 @@ class Node:
     """This class stores attributes for each node."""
 
     def __init__(self, puzzle):
-        self.heuristic = 0 # if uniform cost search, this doesn't change
-        self.cost = 1 # No cost so set to 1 for all
-        self.children = []
-        self.parent = []
+        self.heuristic = 0  # if uniform cost search, this doesn't change
+        self.cost = 1  # Set to 1 for all, not used
         self.puzzle = puzzle
 
-    def set_children(self):
-        pass
+    def set_heuristic(self, type):
+        if type == 2:
+            self.heuristic = heuristic_misplaced(self.puzzle)
+        else:
+            self.heuristic = heuristic_distance(self.puzzle)
 
-    def set_heuristic(self):
-        pass
 
-
-def uniform_cost_search(problem):
+def uniform_cost_search(root):
     """Uniform Cost Search main function."""
 
-    # Start queue by adding root
-    nodes_queue = [problem]
+    flag_root = True
 
-    while not nodes_queue:
+    # Start queue by adding root
+    nodes_queue = [root]
+
+    print('Expanding state')
+    print_puzzle(root.puzzle)
+    print()
+
+    while len(nodes_queue) > 0:
         # Get the cheapest node
         node = nodes_queue[0]
 
         if node.puzzle == goal_state:
-            pass
+            print('Goal!!')
+            return
             #FIXME
 
-        expand(node, nodes_queue)
+        if not flag_root:
+            print('The best state to expand with a g(n) = ' + str(node.cost)
+                  + ' and h(n) = ' + str(node.heuristic) + ' is...')
+            print_puzzle(node.puzzle)
+            print('Expanding this node...\n')
+        else:
+            flag_root = False
+
+        nodes_queue = expand(node, nodes_queue, 1)
+
+    print('Did not find a solution.')
+    return
 
 
-    # Return failure
+def print_puzzle(puzzle):
+    """Function that prints puzzle."""
+
+    temp = []
+    for spot in puzzle:
+        if spot == '0':
+            temp.append('b')
+        else:
+            temp.append(spot)
+
+    print(temp[0] + ' ' + temp[1] + ' ' + temp[2])
+    print(temp[3] + ' ' + temp[4] + ' ' + temp[5])
+    print(temp[6] + ' ' + temp[7] + ' ' + temp[8])
+
+    return
 
 
-def expand():
+def go_up(puzzle, i, type):
+    """This function moves the blank square up, then returns a new child node."""
+
+    new_puzzle = []
+
+    for j in range(len(puzzle)):
+        if j == i:
+            new_puzzle.append(puzzle[i - 3])
+        elif j == (i - 3):
+            new_puzzle.append(puzzle[i])
+        else:
+            new_puzzle.append(puzzle[j])
+
+    print('New: ' + str(new_puzzle))
+
+    new_node = Node(new_puzzle)
+
+    if type > 1:
+        new_node.set_heuristic(type)
+        print('New node h: ' + str(new_node.heuristic))
+
+    return new_node
+
+
+def go_down(puzzle, i, type):
+    """This function moves the blank square down, then returns a new child node."""
+
+    new_puzzle = []
+
+    for j in range(len(puzzle)):
+        if j == i:
+            new_puzzle.append(puzzle[i+3])
+        elif j == (i+3):
+            new_puzzle.append(puzzle[i])
+        else:
+            new_puzzle.append(puzzle[j])
+
+    print('New: ' + str(new_puzzle))
+
+    new_node = Node(new_puzzle)
+
+    if type > 1:
+        new_node.set_heuristic(type)
+        print('New node h: ' + str(new_node.heuristic))
+
+    return new_node
+
+
+def go_right(puzzle, i, type):
+    """This function moves the blank square right, then returns a new child node."""
+
+    new_puzzle = []
+
+    for j in range(len(puzzle)):
+        if j == i:
+            new_puzzle.append(puzzle[i + 1])
+        elif j == (i + 1):
+            new_puzzle.append(puzzle[i])
+        else:
+            new_puzzle.append(puzzle[j])
+
+    print('New: ' + str(new_puzzle))
+
+    new_node = Node(new_puzzle)
+
+    if type > 1:
+        new_node.set_heuristic(type)
+        print('New node h: ' + str(new_node.heuristic))
+
+    return new_node
+
+
+def go_left(puzzle, i, type):
+    """This function moves the blank square left, then returns a new child node."""
+
+    new_puzzle = []
+
+    for j in range(len(puzzle)):
+        if j == i:
+            new_puzzle.append(puzzle[i - 1])
+        elif j == (i - 1):
+            new_puzzle.append(puzzle[i])
+        else:
+            new_puzzle.append(puzzle[j])
+
+    print('New: ' + str(new_puzzle))
+
+    new_node = Node(new_puzzle)
+
+    if type > 1:
+        new_node.set_heuristic(type)
+        print('New node h: ' + str(new_node.heuristic))
+
+    return new_node
+
+
+def expand(node, queue, search_type):
     """This function expands a given node. Then it adds these nodes to the nodes queue."""
+
+    for i in range(len(node.puzzle)):
+        if node.puzzle[i] == '0':
+            if i == 0:
+                node1 = go_down(node.puzzle, i, search_type)
+                node2 = go_right(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 1:
+                node1 = go_down(node.puzzle, i, search_type)
+                node2 = go_right(node.puzzle, i, search_type)
+                node3 = go_left(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+                queue.append(node3)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 2:
+                node1 = go_down(node.puzzle, i, search_type)
+                node2 = go_left(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 3:
+                node1 = go_up(node.puzzle, i, search_type)
+                node2 = go_down(node.puzzle, i, search_type)
+                node3 = go_right(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+                queue.append(node3)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 4:
+                node1 = go_up(node.puzzle, i, search_type)
+                node2 = go_down(node.puzzle, i, search_type)
+                node3 = go_right(node.puzzle, i, search_type)
+                node4 = go_left(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+                queue.append(node3)
+                queue.append(node4)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 5:
+                node1 = go_up(node.puzzle, i, search_type)
+                node2 = go_down(node.puzzle, i, search_type)
+                node3 = go_left(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+                queue.append(node3)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 6:
+                node1 = go_up(node.puzzle, i, search_type)
+                node2 = go_right(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 7:
+                node1 = go_up(node.puzzle, i, search_type)
+                node2 = go_right(node.puzzle, i, search_type)
+                node3 = go_left(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+                queue.append(node3)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
+            if i == 8:
+                node1 = go_up(node.puzzle, i, search_type)
+                node2 = go_left(node.puzzle, i, search_type)
+
+                print('Queue bef del: ' + str(len(queue)))
+                del queue[0]
+                queue.append(node1)
+                queue.append(node2)
+
+                if search_type > 1:
+                    queue.sort(key=operator.attrgetter('heuristic'))
+                print('Queue after: ' + str(len(queue)))
+
+                return queue
 
 
 def heuristic_misplaced(puzzle):
@@ -231,6 +501,8 @@ if __name__ == "__main__":
     puzzle_type = input('Type “1” to use a default puzzle, or “2” to enter your own puzzle.\n')
     print()
 
+    puzzle_arr = []
+
     # Get puzzle
     if puzzle_type == '1':
         print('Default:')
@@ -261,10 +533,12 @@ if __name__ == "__main__":
 
     # Call appropriate search function
     if search_type == '1':
-        uniform_cost_search(root, 0)
+        uniform_cost_search(root)
     elif search_type == '2':
         #heuristic = heuristic_misplaced(puzzle_arr)
+        pass
     elif search_type == '3':
         #heuristic = heuristic_distance(puzzle_arr)
+        pass
     else:
         print('Invalid search type.')
