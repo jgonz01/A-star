@@ -4,7 +4,7 @@ import operator
 import sys
 
 
-# Global value of goal state
+# Global values
 goal_state = ['1', '2', '3', '4', '5', '6', '7', '8', '0']
 curr_depth = 0
 num_nodes = 0
@@ -60,16 +60,17 @@ def search_function(root, type):
                   + str(max_queue) + '.\nThe depth of the goal node was ' + str(node.cost))
             return
 
+        # Expand Node
         print('The best state to expand with a g(n) = ' + str(node.cost)
               + ' and h(n) = ' + str(node.heuristic) + ' is...')
         print_puzzle(node.puzzle)
         print('Expanding this node...\n')
-
         num_nodes += 1
         checked_puzzles.append(node.puzzle)
         nodes_queue = expand(node, nodes_queue, type)
 
     print('Did not find a solution.')
+
     return
 
 
@@ -179,8 +180,10 @@ def expand(node, queue, search_type):
 
     global curr_depth
     curr_depth = node.cost + 1
+
     for i in range(len(node.puzzle)):
         if node.puzzle[i] == '0':
+            # CASE 1: Down, Right
             if i == 0:
                 node1 = go_down(node.puzzle, i, search_type)
                 node2 = go_right(node.puzzle, i, search_type)
@@ -195,6 +198,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 2: Down, Right, Left
             if i == 1:
                 node1 = go_down(node.puzzle, i, search_type)
                 node2 = go_right(node.puzzle, i, search_type)
@@ -212,6 +216,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 3: Down, Left
             if i == 2:
                 node1 = go_down(node.puzzle, i, search_type)
                 node2 = go_left(node.puzzle, i, search_type)
@@ -226,6 +231,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 4: Up, Down, Right
             if i == 3:
                 node1 = go_up(node.puzzle, i, search_type)
                 node2 = go_down(node.puzzle, i, search_type)
@@ -243,6 +249,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 5: Up, Down, Right, Left
             if i == 4:
                 node1 = go_up(node.puzzle, i, search_type)
                 node2 = go_down(node.puzzle, i, search_type)
@@ -263,6 +270,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 6: Up, Down, Left
             if i == 5:
                 node1 = go_up(node.puzzle, i, search_type)
                 node2 = go_down(node.puzzle, i, search_type)
@@ -280,6 +288,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 7: Up, Right
             if i == 6:
                 node1 = go_up(node.puzzle, i, search_type)
                 node2 = go_right(node.puzzle, i, search_type)
@@ -294,6 +303,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 8: Up, Right, Left
             if i == 7:
                 node1 = go_up(node.puzzle, i, search_type)
                 node2 = go_right(node.puzzle, i, search_type)
@@ -311,6 +321,7 @@ def expand(node, queue, search_type):
                     queue.sort(key=operator.attrgetter('total'))
 
                 return queue
+            # CASE 9: Up, Left
             if i == 8:
                 node1 = go_up(node.puzzle, i, search_type)
                 node2 = go_left(node.puzzle, i, search_type)
