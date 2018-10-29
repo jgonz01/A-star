@@ -53,6 +53,7 @@ def search_function(root, type):
 
         if node.puzzle == goal_state:
             print('Goal!!')
+            print_puzzle(node.puzzle)
             print()
             print('To solve this problem the search algorithm expanded a '
                   'total of ' + str(num_nodes) + ' nodes.\nThe maximum '
